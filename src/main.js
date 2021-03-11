@@ -8,7 +8,7 @@ Vue.config.productionTip = false;
 
 Vue.use(GmapVue, {
 	load: {
-		key: "AIzaSyDWiY2wmBKYJDs4hemWXEkae80g_APNL1Q",
+		key: "",
 		libraries: "places",
 		installComponents: true,
 	},
