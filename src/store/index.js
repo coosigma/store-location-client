@@ -8,7 +8,6 @@ export default new Vuex.Store({
 	state: {
 		stores: [],
 		keywords: "",
-		currentStore: null,
 		currentIndex: null,
 	},
 	mutations: {
@@ -18,8 +17,7 @@ export default new Vuex.Store({
 		updateKeywords(state, keywords) {
 			state.keywords = keywords;
 		},
-		setCurrentStore(state, index) {
-			state.currentStore = state.stores[index];
+		setCurrentIndex(state, index) {
 			state.currentIndex = index;
 		},
 	},
@@ -31,14 +29,38 @@ export default new Vuex.Store({
 					const stores = res.stores;
 					commit("updateStores", stores);
 					if (!this.currentStore && stores.length > 0) {
-						commit("setCurrentStore", 0);
+						commit("setCurrentIndex", 0);
 					}
 				},
 			});
 		},
+		setKeywords({ commit }, keywords) {
+			commit("updateKeywords", keywords);
+		},
 		setCurrentStore({ commit }, index) {
-			commit("setCurrentStore", index);
+			commit("setCurrentIndex", index);
 		},
 	},
-	modules: {},
+	getters: {
+		searchedStores: (state, getters) => {
+			const stores = state.stores.filter((store) => {
+				return store.title
+					.toLowerCase()
+					.includes(getters.keywords.toLowerCase());
+			});
+			return stores;
+		},
+		currentStore: (state, getters) => {
+			return getters.searchedStores[getters.currentIndex];
+		},
+		stores: (state) => {
+			return state.stores;
+		},
+		keywords: (state) => {
+			return state.keywords;
+		},
+		currentIndex: (state) => {
+			return state.currentIndex;
+		},
+	},
 });

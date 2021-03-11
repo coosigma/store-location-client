@@ -23,9 +23,6 @@ export default {
 	name: "StoreMap",
 	props: ["store"],
 	methods: {
-		getImage(store) {
-			return `http://127.0.0.1/images/${store.image}`;
-		},
 		getMarkers() {
 			const marker = {
 				position: { lat: this.store.latitude, lng: this.store.longitude },
@@ -34,11 +31,6 @@ export default {
 			};
 			return [marker];
 		},
-	},
-	data: function() {
-		return {
-			api_key: "AIzaSyDWiY2wmBKYJDs4hemWXEkae80g_APNL1Q",
-		};
 	},
 };
 </script>

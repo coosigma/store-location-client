@@ -4,31 +4,42 @@
 			<store-map :store="currentStore"></store-map>
 		</div>
 		<div class="stores">
-			<template v-for="(store, index) in stores">
-				<store-element
-					:store="store"
-					:key="index"
-					@selected="setCurrentStore(store, index)"
-					:activated="index === currentIndex"
-				></store-element>
-			</template>
+			<div class="search-bar">
+				<search-element></search-element>
+			</div>
+			<div class="list">
+				<template v-for="(store, index) in searchedStores">
+					<store-element
+						:store="store"
+						:key="index"
+						@selected="setCurrentStore(index)"
+						:activated="index === currentIndex"
+					></store-element>
+				</template>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 import StoreElement from "./StoreElement.vue";
+import SearchElement from "./SearchElement.vue";
 import StoreMap from "./StoreMap.vue";
 export default {
 	name: "Stores",
-	components: { StoreElement, StoreMap },
-	computed: mapState(["stores", "keywords", "currentStore", "currentIndex"]),
+	components: { StoreElement, StoreMap, SearchElement },
+	computed: mapGetters([
+		"searchedStores",
+		"keywords",
+		"currentStore",
+		"currentIndex",
+	]),
 	created: function() {
 		this.$store.dispatch("retrieveStores");
 	},
 	methods: {
-		setCurrentStore: function(store, index) {
+		setCurrentStore: function(index) {
 			this.$store.dispatch("setCurrentStore", index);
 		},
 	},
@@ -39,7 +50,7 @@ export default {
 div {
 	margin-top: 20px;
 }
-div.stores {
+div.list {
 	display: flex;
 }
 </style>

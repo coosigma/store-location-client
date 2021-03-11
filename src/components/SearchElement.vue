@@ -1,24 +1,52 @@
 <template>
-	<div @click="$emit('selected')" :class="{ active: activated }">
-		<img :src="getImage(store)" alt="this a store image" />
-		<p>{{ store.title }}</p>
+	<div class="search-bar">
+		<div class="info">
+			<p>{{ countStores() }}</p>
+		</div>
+		<div class="search">
+			<input
+				class="search-input"
+				id="search-input"
+				type="text"
+				@keyup="handleKeyUp"
+			/>
+			<button type="button" @click="onInput">search</button>
+		</div>
 	</div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
-	name: "StoreElement",
-	props: ["store", "activated"],
+	name: "SearchElement",
+	props: [],
+	computed: mapGetters(["searchedStores", "keywords"]),
+	created: function() {
+		console.log(this.countStores());
+	},
 	methods: {
-		getImage(store) {
-			return `http://127.0.0.1/images/${store.image}`;
+		countStores() {
+			return `${this.searchedStores.length} Stores`;
+		},
+		onInput() {
+			const input = document.getElementById("search-input");
+			console.log(input.value);
+			this.$store.dispatch("setKeywords", input.value);
+		},
+		handleKeyUp(event) {
+			if (event.key === "Enter") {
+				this.onInput();
+			}
 		},
 	},
 };
 </script>
 <style scoped>
-img {
-	max-width: 50%;
+div.search-bar {
+	display: flex;
+}
+div.search {
+	margin-left: auto;
 }
 div.active {
 	transform: scale(1.1);

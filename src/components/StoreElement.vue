@@ -1,7 +1,9 @@
 <template>
 	<div @click="$emit('selected')" :class="{ active: activated }">
 		<img :src="getImage(store)" alt="this a store image" />
-		<p>{{ store.title }}</p>
+		<div class="title">
+			{{ store.title }}
+		</div>
 	</div>
 </template>
 
@@ -17,8 +19,18 @@ export default {
 };
 </script>
 <style scoped>
+div.title {
+	margin-left: 10px;
+	max-width: 100px;
+	overflow-wrap: normal;
+}
+p {
+	word-wrap: break-word;
+	word-break: break-all;
+	overflow: hidden;
+}
 img {
-	max-width: 50%;
+	max-width: 80px;
 }
 div.active {
 	transform: scale(1.1);
