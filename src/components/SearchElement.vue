@@ -21,16 +21,12 @@ export default {
 	name: "SearchElement",
 	props: [],
 	computed: mapGetters(["searchedStores", "keywords"]),
-	created: function() {
-		console.log(this.countStores());
-	},
 	methods: {
 		countStores() {
 			return `${this.searchedStores.length} Stores`;
 		},
 		onInput() {
 			const input = document.getElementById("search-input");
-			console.log(input.value);
 			this.$store.dispatch("setKeywords", input.value);
 		},
 		handleKeyUp(event) {
